@@ -8,8 +8,10 @@ public class RMBClicker : MonoBehaviour
 {
     [SerializeField] private int startingRMBPower; // How much you get insantly after you press RMB button
     private int currentRMBPower;
-    private float timeEachTick = 0.03f; // Each time you get an extra RMBPower / 100
-    
+    private float timeEachTick = 0.03f; // Each time you get an extra RMBPower / Overall time divided by 100
+    [SerializeField] private int startingpowerMultiplayer = 3;
+    private int currentpowerMultiplayer = 3;// Мультиплеер
+
     [SerializeField] private Camera MainCamera;
     [SerializeField] private Image bitcoinPlacement;
 
@@ -19,8 +21,10 @@ public class RMBClicker : MonoBehaviour
 
     private void Start()
     {
-        currentRMBPower = startingRMBPower;
         mainClicker = GetComponent<MainClicker>();
+
+        currentRMBPower = startingRMBPower;
+        currentpowerMultiplayer = startingpowerMultiplayer;
     }
 
     private void Update()
@@ -47,7 +51,7 @@ public class RMBClicker : MonoBehaviour
 
     private IEnumerator DelayBetweenAddingPower()
     {
-        while (currentRMBPower <= startingRMBPower * 3)
+        while (currentRMBPower <= startingRMBPower * currentpowerMultiplayer)
         {
             currentRMBPower++;
             yield return new WaitForSeconds(timeEachTick);
