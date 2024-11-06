@@ -10,7 +10,7 @@ public class RMBClicker : MonoBehaviour
     private int currentRMBPower;
     private float timeEachTick = 0.03f; // Each time you get an extra RMBPower / Overall time divided by 100
     [SerializeField] private int startingpowerMultiplayer = 3;
-    private int currentpowerMultiplayer = 3;// Мультиплеер
+    private int currentpowerMultiplayer = 3; // How more is max power compared to min power
 
     [SerializeField] private Camera MainCamera;
     [SerializeField] private Image bitcoinPlacement;
@@ -21,7 +21,7 @@ public class RMBClicker : MonoBehaviour
 
     private void Start()
     {
-        mainClicker = GetComponent<MainClicker>();
+        mainClicker = FindFirstObjectByType<MainClicker>();
 
         currentRMBPower = startingRMBPower;
         currentpowerMultiplayer = startingpowerMultiplayer;
