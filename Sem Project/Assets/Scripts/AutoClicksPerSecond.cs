@@ -29,7 +29,7 @@ public class AutoClicksPerSecond : MonoBehaviour
     {
         if (amountOfRobots >= 1)
         {
-        mainClicker.amountOfClicks += amountOfCPS;
+        mainClicker.amountOfCoins += amountOfCPS;
         yield return new WaitForSeconds(1f);
         }
     }

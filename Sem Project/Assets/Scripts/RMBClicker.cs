@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,11 +18,12 @@ public class RMBClicker : MonoBehaviour
 
     MainClicker mainClicker;
 
-    Vector2 mousePosition = Input.mousePosition;
+    Vector2 mousePosition;
 
     private void Start()
     {
         mainClicker = FindFirstObjectByType<MainClicker>();
+        mousePosition = Input.mousePosition;
 
         currentRMBPower = startingRMBPower;
         currentpowerMultiplayer = startingpowerMultiplayer;
@@ -29,23 +31,30 @@ public class RMBClicker : MonoBehaviour
 
     private void Update()
     {
-        CheckRayCastHit();
         RMBButtonDown();
         RMBButtonUp();
     }
 
-    private void CheckRayCastHit()
+
+    private void RMBButtonDown()
     {
         Ray cursorTrackerRay = MainCamera.ScreenPointToRay(mousePosition);
         RaycastHit hitAnything; // Not exactly the bitcoin
 
         bool weHitSomething = Physics.Raycast(cursorTrackerRay, out hitAnything);
-    }
-    private void RMBButtonDown()
-    {
-        if (Input.GetMouseButtonDown(1))
+
+        if (Input.GetMouseButtonDown(1) && weHitSomething && hitAnything.transform.GetComponent<BoxCollider2D>())
         {
         StartCoroutine(DelayBetweenAddingPower());
+        }
+    }
+
+    private void RMBButtonUp()
+    {
+        if (Input.GetMouseButtonUp(1))
+        {
+            mainClicker.amountOfCoins += currentRMBPower;
+            currentRMBPower = startingRMBPower;
         }
     }
 
@@ -55,15 +64,6 @@ public class RMBClicker : MonoBehaviour
         {
             currentRMBPower++;
             yield return new WaitForSeconds(timeEachTick);
-        }
-    }
-
-    private void RMBButtonUp()
-    { 
-    if (Input.GetMouseButtonUp(1))
-        {
-            mainClicker.amountOfClicks += currentRMBPower;
-            currentRMBPower = startingRMBPower;
         }
     }
 
