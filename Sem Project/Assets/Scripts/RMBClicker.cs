@@ -42,10 +42,6 @@ public class RMBClicker : MonoBehaviour
 
     }
 
-    
-
-
-
 
     private IEnumerator AddingPower()
     {
@@ -62,6 +58,4 @@ public class RMBClicker : MonoBehaviour
             yield return new WaitForSeconds(timeEachTick);   
         }
     }
-
-
 }
