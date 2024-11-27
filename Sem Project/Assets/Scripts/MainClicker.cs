@@ -7,12 +7,11 @@ using UnityEngine.UI;
 
 public class MainClicker : MonoBehaviour
 {
-    public float amountOfCoins;
+    public float amountOfCoins = 0;
 
-    private int coinsPerClick; //Amount of clicks you get per each click on LMB
+    public int coinsPerClick; //Amount of clicks you get per each click on LMB
 
-    [SerializeField] public Image bitcoinPlacement;
-    [SerializeField] private Camera MainCamera;
+    [SerializeField] private IsCursorOnABitcoin isCursorOnABitcoinScript;
 
     [SerializeField] private TextMeshProUGUI showingAmountOfclicks;
 
@@ -24,36 +23,30 @@ public class MainClicker : MonoBehaviour
 
     private void BitcoinLMBClick()
     {
-        Vector2 mousePosition = Input.mousePosition;
-
-        Ray cursorTrackerRay = MainCamera.ScreenPointToRay(mousePosition);
-        RaycastHit hitAnything; // Not exactly the bitcoin
         
-        bool weHitSomething = Physics.Raycast(cursorTrackerRay, out hitAnything);
-
-        if (Input.GetMouseButton(0) && weHitSomething && hitAnything.transform.GetComponent<BoxCollider2D>())
+        if (Input.GetMouseButtonUp(0) && isCursorOnABitcoinScript.isCursorOnABitcoin)
         {
+            Debug.Log("We clicked the bitcoin");
             amountOfCoins += coinsPerClick;
         }
-
     }
 
     private void ShowANDConvertCurrencies()
     {
         showingAmountOfclicks.text = amountOfCoins.ToString();
-        if (amountOfCoins >= 100000)
+        if (amountOfCoins >= 1000)
         {
-            amountOfCoins /= 100;
+            amountOfCoins /= 1000;
             showingAmountOfclicks.text = $"{amountOfCoins}K";
         }
         if (amountOfCoins >= 1000000)
         {
-            amountOfCoins /= 1000;
+            amountOfCoins /= 1000000;
             showingAmountOfclicks.text = $"{amountOfCoins}M";
         }
-        if (amountOfCoins >= 10000000)
+        if (amountOfCoins >= 1000000000)
         {
-            amountOfCoins /= 10000;
+            amountOfCoins /= 1000000000;
             showingAmountOfclicks.text = $"{amountOfCoins}B";
         }
     }
