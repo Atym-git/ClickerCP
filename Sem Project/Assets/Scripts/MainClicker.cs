@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class MainClicker : MonoBehaviour
 {
-    public float amountOfCoins = 0; //Overall amount of Coings
+    public float amountOfCoins = 0; //Overall amount of Coins
 
     public int coinsPerClick; //Amount of coins you get each LMB click
 
@@ -30,7 +30,7 @@ public class MainClicker : MonoBehaviour
         }
     }
 
-    private void ShowANDConvertCurrencies()
+    private void ShowANDConvertCurrencies() // To Do: Fix currencies's converts
     {
         if (amountOfCoins >= 1000)
         {
