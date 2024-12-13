@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public class MainClicker : MonoBehaviour
 {
-    public float amountOfCoins = 0;
+    public float amountOfCoins = 0; //Overall amount of Coings
 
-    public int coinsPerClick; //Amount of clicks you get per each click on LMB
+    public int coinsPerClick; //Amount of coins you get each LMB click
 
     [SerializeField] private IsCursorOnABitcoin isCursorOnABitcoinScript;
 
@@ -26,29 +26,25 @@ public class MainClicker : MonoBehaviour
         
         if (Input.GetMouseButtonUp(0) && isCursorOnABitcoinScript.isCursorOnABitcoin)
         {
-            Debug.Log("We clicked the bitcoin");
             amountOfCoins += coinsPerClick;
         }
     }
 
     private void ShowANDConvertCurrencies()
     {
-        showingAmountOfclicks.text = amountOfCoins.ToString();
         if (amountOfCoins >= 1000)
         {
-            amountOfCoins /= 1000;
-            showingAmountOfclicks.text = $"{amountOfCoins}K";
+            showingAmountOfclicks.text = $"{amountOfCoins / 1000}K";
         }
         if (amountOfCoins >= 1000000)
         {
-            amountOfCoins /= 1000000;
-            showingAmountOfclicks.text = $"{amountOfCoins}M";
+            showingAmountOfclicks.text = $"{amountOfCoins / 1000000}M";
         }
         if (amountOfCoins >= 1000000000)
         {
-            amountOfCoins /= 1000000000;
-            showingAmountOfclicks.text = $"{amountOfCoins}B";
+            showingAmountOfclicks.text = $"{amountOfCoins / 1000000000}B";
         }
+        showingAmountOfclicks.text = amountOfCoins.ToString();
     }
 
 }
