@@ -4,25 +4,22 @@ using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(MainClicker))]
-[RequireComponent(typeof(IsCursorOnABitcoin))]
+[RequireComponent(typeof(Coins))]
 public class RMBClicker : MonoBehaviour
 {
     [Header("RMBClicker")]
-    private bool isRMBClickerBought; // To do: Make a UI panel with an opportunity to buy RMBClicker, autoclicks, etc.
-    [SerializeField] private float maxRMBPower = 10; // If you time this number by currentRMBMultiplayer & by currTime you will get how much is the maxRMBPower "RMBTimer" amount of time
-    private float currentRMBPower;
-    private float RMBTimer = 3f; //How much time you can hold RMB rn (To Do: it is should be upgreadable)
-    private float currTime = 1; // How much time has passed since you started to hold down the rmb button
-    private float currentRMBMultiplayer = 3f; // To Do: Use this value to multiply the value of maxRMBPower (need to find a balance with currtime)
-    [Header("Cooldown")]
-    private float cooldownTime = 10f;
+    public bool isRMBClickerBought = false; // To do: Make a UI panel with an opportunity to buy RMBClicker, autoclicks, etc.
+    public float cycleTime = 3f; //How much time you can hold RMB rn (To Do: it is should be upgreadable)
+    private float currTime = 0; // How much time has passed since you started to hold down the rmb button
+    public float coinsPerTick = 0.1f;
+    public float cooldownTime = 5f;
+    private bool isOnCooldown = false;
 
     [Header("Scripts")]
-    [SerializeField] private MainClicker mainClicker;
+    [SerializeField] private Coins coinsScript;
     [SerializeField] private IsCursorOnABitcoin isCursorOnABitcoinScript;
 
-    private void Update()
+    private void FixedUpdate()
     {
         RMBButtonDown();
         RMBButtonUp();
@@ -31,27 +28,30 @@ public class RMBClicker : MonoBehaviour
     {
         //if (isRMBClickerBought)
         //{
-            if (Input.GetMouseButton(1) && isCursorOnABitcoinScript.isCursorOnABitcoin && currTime <= RMBTimer + 1)
+            if (Input.GetMouseButton(1) && isCursorOnABitcoinScript.isCursorOnABitcoin && !isOnCooldown)
             {
-                currTime += Time.deltaTime;
+            currTime += Time.deltaTime;
+            coinsScript.AddCoins(coinsPerTick);
             }
         //}
     }
 
     private void RMBButtonUp()
     {
-        if (Input.GetMouseButtonUp(1))
+        if ((Input.GetMouseButtonUp(1) && currTime > 0) || currTime >= cycleTime)
         {
-            currentRMBPower = maxRMBPower * (currTime - 1);
-            mainClicker.amountOfCoins += currentRMBPower;
-            currTime = 1;
-            Cooldown();
+            currTime = 0;
+            StartCoroutine(Cooldown());
         }
     }
 
-    private void Cooldown()
+    private IEnumerator Cooldown()
     {
-        //To Do: add a cooldown (timer) between RMB clicks so you can't start a new one instantly after the last one ended using cooldownTime
+        Debug.Log(isOnCooldown);
+        isOnCooldown = true;
+        yield return new WaitForSeconds(cooldownTime);
+        isOnCooldown = false;
+        Debug.Log(isOnCooldown);
     }
 
 }
