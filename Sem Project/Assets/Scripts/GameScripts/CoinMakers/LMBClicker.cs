@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LMBClicker : MonoBehaviour
 {
-    public int coinsPerClick = 1; //Amount of coins you get each LMB click
+    public int coinsPerClick = 1;
 
     [SerializeField] private IsCursorOnABitcoin isCursorOnABitcoinScript;
 
     private Coins coinsScript;
 
-    private void Start()
+    private void Awake()
     {
         coinsScript = GetComponent<Coins>();
     }
